@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SearchyNET", "SearchyNET\SearchyNET.csproj", "{2086E3A9-0381-46FA-BA3B-891BA5AED9C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchyPoC", "SearchyPoC\SearchyPoC.csproj", "{04ED18A4-BF74-4E5C-ACC6-BA430971C00C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2086E3A9-0381-46FA-BA3B-891BA5AED9C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2086E3A9-0381-46FA-BA3B-891BA5AED9C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2086E3A9-0381-46FA-BA3B-891BA5AED9C2}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{2086E3A9-0381-46FA-BA3B-891BA5AED9C2}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{2086E3A9-0381-46FA-BA3B-891BA5AED9C2}.Debug|Any CPU.Deploy.0 = Release|Any CPU
+		{04ED18A4-BF74-4E5C-ACC6-BA430971C00C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04ED18A4-BF74-4E5C-ACC6-BA430971C00C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04ED18A4-BF74-4E5C-ACC6-BA430971C00C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04ED18A4-BF74-4E5C-ACC6-BA430971C00C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {361C3F2D-23A4-4B5F-A27E-994CBA20E6C2}
+	EndGlobalSection
+EndGlobal
