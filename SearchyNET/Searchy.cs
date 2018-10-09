@@ -127,7 +127,8 @@ namespace SearchyNET
         public List<Criterion> All { get; set; }
         public bool SatisfiesAll(ISelectable source)
         {
-            return SatisfiesAll(source, All, 0)();
+            var func = SatisfiesAll(source, All, 0);
+            return func();
         }
 
         public Func<bool> SatisfiesAll(ISelectable source, List<Criterion> criteria, int index)

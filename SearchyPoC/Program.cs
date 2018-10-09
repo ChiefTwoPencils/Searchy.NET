@@ -24,7 +24,12 @@ namespace SearchyPoC
             Console.WriteLine($"\nStarting {approach}...");
             // Criteria is capable of handling a simple, single where clause that
             // consists of complex criteria.
-            var filteredUsers = users.Where(criteria.SatisfiesAll).ToList();
+            var filteredUsers = users.Where(
+                // SatisfiesAll builds a function and defers its execution
+                // until all criterion are chained.
+                criteria.SatisfiesAll
+            // Execution begins with .ToList().
+            ).ToList();
             filteredUsers.ForEach(PrintUser);
             Console.WriteLine($"Stopping {approach}...\n");
         }
