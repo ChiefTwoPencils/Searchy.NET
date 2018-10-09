@@ -38,7 +38,7 @@ namespace SearchyNET
             };
 
             public static FieldType DateTime
-            { get; } = new FieldType(nameof(DateTime), text => DateTime.Convert(text), allTypes);
+            { get; } = new FieldType(nameof(DateTime), text => System.DateTime.Parse(text), allTypes);
 
             public static FieldType String
             { get; } = new FieldType(nameof(String), text => text, allTypes);
@@ -97,7 +97,7 @@ namespace SearchyNET
 
     public class Criterion
     {
-        public Criterion() : this(null, new Field(), Searchy.Operators.Noop, new Value()) { }
+        public Criterion() : this(Searchy.Chains.Root, new Field(), Searchy.Operators.Noop, new Value()) { }
         public Criterion(Chain chain, Field field, Operator dooperator, Value value)
         {
             Chain = chain;

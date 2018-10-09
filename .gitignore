@@ -3,3 +3,10 @@
 ################################################################################
 
 /.idea/.idea.SearchyNET
+/.vs/SearchyNET
+/packages/Microsoft.NETCore.Portable.Compatibility.1.0.1
+/SearchyNET/.idea/.idea.SearchyNET
+/SearchyNET/bin/Debug/netstandard2.0
+/SearchyNET/obj
+/SearchyPoC/bin/Debug
+/SearchyPoC/obj/Debug

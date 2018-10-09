@@ -18,11 +18,11 @@ namespace SearchyPoC
             Console.WriteLine("End report!");
         }
 
-        // Tests the given users against a given criteria described be the given approach.
+        // Tests the given users against a given criteria described by the given approach.
         private static void TestAgainst(IEnumerable<User> users, Criteria criteria, string approach)
         {
             Console.WriteLine($"\nStarting {approach}...");
-            // Criteria is capable of handling a simple, single-where clause that
+            // Criteria is capable of handling a simple, single where clause that
             // consists of complex criteria.
             var filteredUsers = users.Where(criteria.SatisfiesAll).ToList();
             filteredUsers.ForEach(PrintUser);
@@ -49,11 +49,11 @@ namespace SearchyPoC
         // Fields for searching based on, in this case, User Props.
         // Fields can be built (with a FieldFactory, if you like) from user props.
         // The final arg is the UserPropSelector curried from: f(a, b), to: (a) => f(a, b) where b : IsKnown.
-        private static readonly Field UserNameField =
-            new Field("UserName", DataType.String, user => UserPropSelector(user, "UserName"));
+        private static readonly Field UserNameField = new Field(
+            "UserName", DataType.String, user => UserPropSelector(user, "UserName"));
 
-        private static readonly Field EmailField =
-            new Field("Email", DataType.String, user => UserPropSelector(user, "Email"));
+        private static readonly Field EmailField = new Field(
+            "Email", DataType.String, user => UserPropSelector(user, "Email"));
 
         #region Test Utils
 
@@ -69,9 +69,10 @@ namespace SearchyPoC
             };
         }
         
-        // Criteria for PoC. Shows And/Or behavior of linearly linked filters.
+        // Criteria for PoC. Shows And/Or behavior of linearly-linked filters.
         // Or against different props and values.
-        private static Criteria OrTestCriteria { get; } = new Criteria(new List<Criterion>
+        private static Criteria OrTestCriteria { get; } = new Criteria(
+            new List<Criterion>
             {
                 GetRoot("Happy Golucky"),
                 ChainSomeGuy(Chains.Or)
@@ -79,7 +80,8 @@ namespace SearchyPoC
         );
 
         // And against different props and values.
-        private static Criteria AndTestCriteria { get; } = new Criteria(new List<Criterion>
+        private static Criteria AndTestCriteria { get; } = new Criteria(
+            new List<Criterion>
             {
                 GetRoot("Happy Golucky"),
                 ChainSomeGuy(Chains.And)
@@ -87,7 +89,8 @@ namespace SearchyPoC
         );
 
         // And against different props with single expected user.
-        private static Criteria AndTestCriteriaConfirmation { get; } = new Criteria(new List<Criterion>
+        private static Criteria AndTestCriteriaConfirmation { get; } = new Criteria(
+            new List<Criterion>
             {
                 GetRoot("Some Guy"),
                 ChainSomeGuy(Chains.And)
