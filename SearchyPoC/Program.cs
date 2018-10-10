@@ -16,6 +16,13 @@ namespace SearchyPoC
             TestAgainst(users, AndTestCriteria, "And-ing");
             TestAgainst(users, AndTestCriteriaConfirmation, "Confirming And-ing with non-empty result.");
             Console.WriteLine("End report!");
+
+            var userName = UserPropSelector(users[2], "UserName");
+            var created = UserDatePropSelector(users[2], "DateCreated");
+            Console.WriteLine(Chains.And.Doop(
+                () => Operators.Equal.Doop(userName, "John James"),
+                () => Operators.Equal.Doop(created, new DateTime(2018, 1, 5).Date))
+            );
         }
 
         // Tests the given users against a given criteria described by the given approach.
@@ -51,6 +58,19 @@ namespace SearchyPoC
                 .Value;
         }
 
+        // Specialized prop selector for dates. It returns only the Date part of a
+        // DateTime for better comparison against short, user-entered dates.
+        private static IComparable UserDatePropSelector(ISelectable selectable, string propName)
+        {
+            var value = UserPropSelector(selectable, propName).ToString();
+            var date = new DateTime();
+            if (!DateTime.TryParse(value, out date))
+            {
+                throw new ArgumentException("User prop value wasn't a DateTime");
+            }
+            return date.Date;
+        }
+
         // Fields for searching based on, in this case, User Props.
         // Fields can be built (with a FieldFactory, if you like) from user props.
         // The final arg is the UserPropSelector curried from: f(a, b), to: (a) => f(a, b) where b : IsKnown.
@@ -60,11 +80,14 @@ namespace SearchyPoC
         private static readonly Field EmailField = new Field(
             "Email", DataType.String, user => UserPropSelector(user, "Email"));
 
+        private static readonly Field DateCreatedField = new Field(
+            "DateCreated", DataType.DateTime, user => UserDatePropSelector(user, "DateCreated"));
+
         #region Test Utils
 
         private static List<User> GetTestUsers()
         {
-            return new List<User>
+            var users = new List<User>
             {
                 GetTestUser("Billy Bob"),
                 GetTestUser("Happy Golucky"),
@@ -72,6 +95,9 @@ namespace SearchyPoC
                 GetTestUser("Zoey Kilgore"),
                 GetTestUser("Some Guy")
             };
+            var dateProp = users[2].Props.First(p => p.Name == "DateCreated");
+            dateProp.Value = new DateTime(2018, 1, 5);
+            return users;
         }
         
         // Criteria for PoC. Shows And/Or behavior of linearly-linked filters.
@@ -112,7 +138,7 @@ namespace SearchyPoC
                 GetTestProp("UserName", name),
                 GetTestProp("Email", $"{name.Replace(" ", "")}@email.com"),
                 GetTestProp("DateCreated", DateTime.Now.AddMonths(
-                    new Random((int) DateTime.Now.Ticks).Next(1, 12)))
+                    new Random((int) DateTime.Now.Ticks).Next(1, 12)).Date)
             };
             return new User(props);
         }
@@ -130,6 +156,11 @@ namespace SearchyPoC
         private static Criterion ChainSomeGuy(Chain chain)
         {
             return new Criterion(chain, EmailField, Operators.NotIn, new Value("  WhoKnows@email.com ,  SomeGuy@email.com   "));
+        }
+
+        private static Criterion ChainDateComp(Chain chain)
+        {
+            return new Criterion(chain, DateCreatedField, Operators.Equal, new Value("01/05/2018"));
         }
 
         private static void PrintUser(User user)
@@ -155,7 +186,7 @@ namespace SearchyPoC
     internal abstract class Prop
     {
         public string Name { get; protected set; }
-        public IComparable Value { get; protected set; }
+        public IComparable Value { get; set; }
     }
 
     internal class UserProp : Prop
