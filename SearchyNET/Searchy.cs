@@ -28,15 +28,15 @@ namespace SearchyNET
         public static class DataType
         {
             private static readonly FieldType dateTime = new FieldType(
-                nameof(DateTime), text => System.DateTime.Parse(text), allTypes);            
+                nameof(DateTime), text => System.DateTime.Parse(text), baseTypes);            
 
             private static readonly FieldType @string = new FieldType(
-                nameof(String), text => text, allTypes);            
+                nameof(String), text => text, stringTypes);            
 
             public static FieldType DateTime { get; } = dateTime;
             public static FieldType String { get; } = @string;
 
-            private static readonly List<Operator> allTypes = new List<Operator>
+            private static readonly List<Operator> baseTypes = new List<Operator>
             {
                 Operators.Equal,
                 Operators.NotEqual,
@@ -44,6 +44,13 @@ namespace SearchyNET
                 Operators.LessThanOrEqual,
                 Operators.GreaterThan,
                 Operators.GreaterThanOrEqual
+            };
+
+            private static readonly List<Operator> stringTypes = new List<Operator>
+            (baseTypes)
+            {
+                Operators.Contains,
+                Operators.DoesNotContain
             };
         }
 
@@ -77,6 +84,14 @@ namespace SearchyNET
                 ">=", (a, b) => OrEqual(a, b, GreaterThan)
             );
 
+            private static readonly Operator contains = new Operator(
+                "Contains", (a, b) => ((string) a).Contains((string) b)
+            );
+
+            private static readonly Operator doesNotContain = new Operator(
+                "Does Not Contain", (a, b) => Not(() => Contains.Doop(a, b))
+            );
+
             public static bool Not(Func<bool> op)
             {
                 return !op();
@@ -94,6 +109,8 @@ namespace SearchyNET
             public static Operator LessThanOrEqual { get; } = lessThanOrEqual;
             public static Operator GreaterThan { get; } = greaterThan;
             public static Operator GreaterThanOrEqual { get; } = greaterThanOrEqual;
+            public static Operator Contains { get; } = contains;
+            public static Operator DoesNotContain { get; } = doesNotContain;
         }
     }
 
@@ -136,12 +153,13 @@ namespace SearchyNET
             var current = criteria[index];
             var field = current.Field;
             var value = field.Selector(source);
+            bool func() => current.Satisfies(value);
             if (index == criteria.Count - 1)
             {
-                return () => current.Satisfies(value);
+                return func;
             }
             var next = criteria[index + 1];
-            return () => next.Chain.Doop(() => current.Satisfies(value), SatisfiesAll(source, criteria, ++index));
+            return () => next.Chain.Doop(func, SatisfiesAll(source, criteria, index + 1));
         }
     }
 

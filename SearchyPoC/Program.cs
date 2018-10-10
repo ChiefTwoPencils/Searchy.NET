@@ -126,7 +126,7 @@ namespace SearchyPoC
 
         private static Criterion ChainSomeGuy(Chain chain)
         {
-            return new Criterion(chain, EmailField, Operators.Equal, new Value("SomeGuy@email.com"));
+            return new Criterion(chain, EmailField, Operators.Contains, new Value("Guy@"));
         }
 
         private static void PrintUser(User user)
