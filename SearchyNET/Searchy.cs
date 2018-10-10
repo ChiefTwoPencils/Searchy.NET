@@ -92,6 +92,18 @@ namespace SearchyNET
                 "Does Not Contain", (a, b) => Not(() => Contains.Doop(a, b))
             );
 
+            private static readonly Operator @in = new Operator(
+                "In", (a, b) => ((string)b)
+                        .Trim()
+                        .Split(',')
+                        .Select(s => s.Trim().ToLowerInvariant())
+                        .Any(s => Equal.Doop(((string) a).ToLowerInvariant(), s))
+            );
+
+            private static readonly Operator notIn = new Operator(
+                "Not In", (a, b) => Not(() => In.Doop(a, b))
+            );
+
             public static bool Not(Func<bool> op)
             {
                 return !op();
@@ -111,6 +123,8 @@ namespace SearchyNET
             public static Operator GreaterThanOrEqual { get; } = greaterThanOrEqual;
             public static Operator Contains { get; } = contains;
             public static Operator DoesNotContain { get; } = doesNotContain;
+            public static Operator In { get; } = @in;
+            public static Operator NotIn { get; } = notIn;
         }
     }
 

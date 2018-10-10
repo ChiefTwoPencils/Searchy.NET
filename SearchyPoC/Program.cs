@@ -76,7 +76,8 @@ namespace SearchyPoC
         
         // Criteria for PoC. Shows And/Or behavior of linearly-linked filters.
         // Or against different props and values.
-        private static Criteria OrTestCriteria { get; } = new Criteria(
+        private static Criteria OrTestCriteria
+        { get; } = new Criteria(
             new List<Criterion>
             {
                 GetRoot("Happy Golucky"),
@@ -85,7 +86,8 @@ namespace SearchyPoC
         );
 
         // And against different props and values.
-        private static Criteria AndTestCriteria { get; } = new Criteria(
+        private static Criteria AndTestCriteria
+        { get; } = new Criteria(
             new List<Criterion>
             {
                 GetRoot("Happy Golucky"),
@@ -94,7 +96,8 @@ namespace SearchyPoC
         );
 
         // And against different props with single expected user.
-        private static Criteria AndTestCriteriaConfirmation { get; } = new Criteria(
+        private static Criteria AndTestCriteriaConfirmation
+        { get; } = new Criteria(
             new List<Criterion>
             {
                 GetRoot("Some Guy"),
@@ -126,7 +129,7 @@ namespace SearchyPoC
 
         private static Criterion ChainSomeGuy(Chain chain)
         {
-            return new Criterion(chain, EmailField, Operators.Contains, new Value("Guy@"));
+            return new Criterion(chain, EmailField, Operators.NotIn, new Value("  WhoKnows@email.com ,  SomeGuy@email.com   "));
         }
 
         private static void PrintUser(User user)
