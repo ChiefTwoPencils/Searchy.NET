@@ -27,15 +27,6 @@ namespace SearchyNET
 
         public static class DataType
         {
-            private static readonly FieldType dateTime = new FieldType(
-                nameof(DateTime), text => System.DateTime.Parse(text), baseTypes);            
-
-            private static readonly FieldType @string = new FieldType(
-                nameof(String), text => text, stringTypes);            
-
-            public static FieldType DateTime { get; } = dateTime;
-            public static FieldType String { get; } = @string;
-
             private static readonly List<Operator> baseTypes = new List<Operator>
             {
                 Operators.Equal,
@@ -52,6 +43,15 @@ namespace SearchyNET
                 Operators.Contains,
                 Operators.DoesNotContain
             };
+
+            private static readonly FieldType dateTime = new FieldType(
+                nameof(DateTime), text => System.DateTime.Parse(text), baseTypes);            
+
+            private static readonly FieldType @string = new FieldType(
+                nameof(String), text => text, stringTypes);            
+
+            public static FieldType DateTime { get; } = dateTime;
+            public static FieldType String { get; } = @string;
         }
 
         public static class Operators
