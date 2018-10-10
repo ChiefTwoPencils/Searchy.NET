@@ -93,11 +93,19 @@ namespace SearchyNET
             );
 
             private static readonly Operator @in = new Operator(
-                "In", (a, b) => ((string)b)
-                        .Trim()
-                        .Split(',')
-                        .Select(s => s.Trim().ToLowerInvariant())
-                        .Any(s => Equal.Doop(((string) a).ToLowerInvariant(), s))
+                "In", (a, b) =>
+                {
+                    string[] cleanSplitToLower(string list)
+                    {
+                        return list.Trim()
+                            .Split(',')
+                            .Select(s => s.Trim().ToLowerInvariant())
+                            .ToArray();
+                    }
+                    var actual = cleanSplitToLower((string) a);
+                    var requested = cleanSplitToLower((string) b);
+                    return actual.Intersect(requested).Any();
+                }
             );
 
             private static readonly Operator notIn = new Operator(
