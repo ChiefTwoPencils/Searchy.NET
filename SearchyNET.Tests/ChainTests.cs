@@ -1,5 +1,4 @@
-﻿using System;
-using Xunit;
+﻿using Xunit;
 
 using static SearchyNET.Searchy;
 
@@ -8,15 +7,17 @@ namespace SearchyNET.Tests
     public class ChainTests
     {
         [Fact]
-        void RootTest()
+        private void RootTest()
         {
             var root = Chains.Root.Doop;
+            Assert.True(root(() => true, () => true));
             Assert.True(root(() => false, () => true));
             Assert.False(root(() => false, () => false));
+            Assert.False(root(() => true, () => false));
         }
 
         [Fact]
-        void AndTest()
+        private void AndTest()
         {
             var and = Chains.And.Doop;
             Assert.True(and(() => true, () => true));
@@ -26,9 +27,10 @@ namespace SearchyNET.Tests
         }
 
         [Fact]
-        void OrTest()
+        private void OrTest()
         {
             var or = Chains.Or.Doop;
+            Assert.True(or(() => true, () => true));
             Assert.True(or(() => true, () => false));
             Assert.True(or(() => false, () => true));
             Assert.False(or(()=> false, () => false));

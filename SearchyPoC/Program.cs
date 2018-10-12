@@ -63,8 +63,7 @@ namespace SearchyPoC
         private static IComparable UserDatePropSelector(ISelectable selectable, string propName)
         {
             var value = UserPropSelector(selectable, propName).ToString();
-            var date = new DateTime();
-            if (!DateTime.TryParse(value, out date))
+            if (!DateTime.TryParse(value, out var date))
             {
                 throw new ArgumentException("User prop value wasn't a DateTime");
             }
