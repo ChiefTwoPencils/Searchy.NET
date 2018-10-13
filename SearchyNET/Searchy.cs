@@ -95,15 +95,15 @@ namespace SearchyNET
             private static readonly Operator @in = new Operator(
                 "In", (a, b) =>
                 {
-                    string[] cleanSplitToLower(string list)
+                    string[] CleanSplitToLower(string list)
                     {
                         return list.Trim()
                             .Split(',')
                             .Select(s => s.Trim().ToLowerInvariant())
                             .ToArray();
                     }
-                    var actual = cleanSplitToLower((string) a);
-                    var requested = cleanSplitToLower((string) b);
+                    var actual = CleanSplitToLower((string) a);
+                    var requested = CleanSplitToLower((string) b);
                     return actual.Intersect(requested).Any();
                 }
             );
