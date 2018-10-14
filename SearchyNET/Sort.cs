@@ -10,6 +10,16 @@ namespace SearchyNET
             Asc, Desc
         }
 
+        public Sort() : this(Direction.Asc, null)
+        {
+        }
+
+        public Sort(Direction direction, ISelector selector)
+        {
+            SortDirection = direction;
+            Selector = selector;
+        }
+
         public Direction SortDirection { get; set; }
         public ISelector Selector { get; set; }
 
